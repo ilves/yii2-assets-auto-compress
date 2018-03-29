@@ -416,8 +416,14 @@ JS
                     if ($pos = strpos($fileCode, "?")) {
                         $fileCode = substr($fileCode, 0, $pos);
                     }
+                    
+                    $baseUrl = \Yii::$app->request->baseUrl;
+                    if (stristr($fileCode, $baseUrl) !== false) {
+                        $fileCode = $this->webroot . str_replace($baseUrl, '', $fileCode);
+                    } else {
+                        $fileCode = $this->webroot . $fileCode;
+                    }
 
-                    $fileCode = $this->webroot . $fileCode;
                     $contentFile = $this->readLocalFile( $fileCode );
 
                     /**\Yii::info("file: " . \Yii::getAlias(\Yii::$app->assetManager->basePath . $fileCode), self::class);*/
