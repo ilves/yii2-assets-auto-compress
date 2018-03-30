@@ -532,8 +532,14 @@ JS
                     if ($pos = strpos($fileCode, "?")) {
                         $fileCodeLocal = substr($fileCodeLocal, 0, $pos);
                     }
+                    
+                    $baseUrl = \Yii::$app->request->baseUrl;
+                    if (stristr($fileCode, $baseUrl) !== false) {
+                        $fileCodeLocal = $this->webroot . str_replace($baseUrl, '', $fileCodeLocal);
+                    } else {
+                        $fileCodeLocal = $this->webroot . $fileCodeLocal;
+                    }
 
-                    $fileCodeLocal = $this->webroot . $fileCodeLocal;
                     $contentTmp = trim($this->readLocalFile( $fileCodeLocal ));
 
                     //$contentTmp         = trim($this->fileGetContents( Url::to(\Yii::getAlias($fileCode), true) ));
